@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>10ª Unidade PGF - Lumbala Nguimbo</title>
+    
+    <!-- Tailwind CSS (Via CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Marked for Markdown Parsing (para Geopolítica) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Google Fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Merriweather:wght@400;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; }
+        .serif { font-family: 'Merriweather', serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        
+        /* Animations */
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Print Specific Styles */
+        @media print {
+            @page { size: A4; margin: 1.5cm; }
+            body { background: white; color: black; -webkit-print-color-adjust: exact; }
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .page-break { page-break-before: always; }
+            .break-inside-avoid { break-inside: avoid; }
+            
+            /* Remove inputs styling for print */
+            input, textarea, select { border: none !important; background: transparent !important; resize: none; appearance: none; }
+            
+            /* Hide placeholders in print */
+            ::placeholder { color: transparent; }
+            
+            /* Expand containers */
+            .container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            .shadow-lg, .shadow-xl, .shadow-2xl { box-shadow: none !important; }
+        }
+    </style>
+
+    <!-- Import Map for Gemini SDK -->
+    <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.32.0",
+    "react": "https://esm.sh/react@^19.2.1",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.1/",
+    "react/": "https://esm.sh/react@^19.2.1/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.560.0",
+    "react-markdown": "https://esm.sh/react-markdown@^10.1.0"
+  }
+}
+</script>
+</head>
+<body class="bg-gray-100 text-slate-900 flex flex-col min-h-screen">
+
+    <!-- Top Bar (Angola Flag Colors) -->
+    <div class="h-2 flex w-full no-print">
+        <div class="bg-red-700 w-1/2 h-full"></div>
+        <div class="bg-black w-1/2 h-full"></div>
+    </div>
+    <div class="h-1 bg-yellow-500 w-full no-print"></div>
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white shadow-lg relative no-print">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <!-- Logo & Title -->
+                <div class="flex items-center space-x-4 cursor-pointer" onclick="window.router.navigate('home')">
+                    <div class="relative bg-white/10 rounded-full p-2 backdrop-blur-sm">
+                        <!-- Logo Image with Fallback -->
+                        <img 
+                           src="img/logo.png" 
+                           onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Emblem_of_the_National_Police_of_Angola.svg/200px-Emblem_of_the_National_Police_of_Angola.svg.png'"
+                           alt="Polícia de Guarda Fronteira" 
+                           class="w-16 h-16 object-contain"
+                        />
+                    </div>
+                    <div>
+                        <h1 class="text-lg md:text-2xl font-bold uppercase tracking-wider">Polícia de Guarda Fronteira</h1>
+                        <p class="text-xs md:text-sm text-gray-400 uppercase tracking-widest">10ª Unidade - Lumbala Nguimbo, Moxico</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-6">
+                    <button onclick="window.router.navigate('home')" class="nav-btn flex items-center text-sm font-semibold transition-colors duration-200 pb-1 border-b-2 border-transparent hover:text-yellow-500" data-view="home">
+                        <i data-lucide="home" class="w-4 h-4 mr-2"></i> Institucional
+                    </button>
+                    <button onclick="window.router.navigate('reports')" class="nav-btn flex items-center text-sm font-semibold transition-colors duration-200 pb-1 border-b-2 border-transparent hover:text-yellow-500" data-view="reports">
+                        <i data-lucide="file-text" class="w-4 h-4 mr-2"></i> Relatórios
+                    </button>
+                    <button onclick="window.router.navigate('gallery')" class="nav-btn flex items-center text-sm font-semibold transition-colors duration-200 pb-1 border-b-2 border-transparent hover:text-yellow-500" data-view="gallery">
+                        <i data-lucide="camera" class="w-4 h-4 mr-2"></i> Galeria
+                    </button>
+                    <button onclick="window.router.navigate('geopolitics')" class="nav-btn flex items-center text-sm font-semibold transition-colors duration-200 pb-1 border-b-2 border-transparent hover:text-yellow-500" data-view="geopolitics">
+                        <i data-lucide="globe" class="w-4 h-4 mr-2"></i> Geopolítica
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="md:hidden text-white" onclick="window.toggleMobileMenu()">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-800 border-t border-slate-700">
+             <button onclick="window.router.navigate('home'); window.toggleMobileMenu()" class="block w-full text-left px-6 py-4 text-gray-300 hover:text-yellow-500 font-semibold border-b border-slate-700">Institucional</button>
+             <button onclick="window.router.navigate('reports'); window.toggleMobileMenu()" class="block w-full text-left px-6 py-4 text-gray-300 hover:text-yellow-500 font-semibold border-b border-slate-700">Relatórios</button>
+             <button onclick="window.router.navigate('gallery'); window.toggleMobileMenu()" class="block w-full text-left px-6 py-4 text-gray-300 hover:text-yellow-500 font-semibold border-b border-slate-700">Galeria</button>
+             <button onclick="window.router.navigate('geopolitics'); window.toggleMobileMenu()" class="block w-full text-left px-6 py-4 text-gray-300 hover:text-yellow-500 font-semibold">Geopolítica</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-7xl">
+        
+        <!-- ================= SECTION: INSTITUTIONAL ================= -->
+        <section id="view-home" class="view-section fade-in">
+            
+            <!-- Language Toggle -->
+            <div class="flex justify-end mb-4 space-x-2">
+                <button onclick="window.app.setLanguage('pt')" id="btn-lang-pt" class="flex items-center px-4 py-2 rounded-md transition border shadow-sm bg-blue-900 text-white border-blue-900">
+                     <div class="mr-2">
+                        <!-- Flag Angola SVG -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" class="w-6 h-4 shadow-sm border border-gray-100">
+                            <rect width="900" height="600" fill="#C8102E"/>
+                            <rect width="900" height="300" y="300" fill="#000"/>
+                            <path fill="#FFCD00" d="M478 191c-52 0-96 28-119 70 30-19 66-30 104-30 33 0 64 8 92 23l24-41c-30-14-64-22-101-22zm-127 82c-3 15-5 31-5 47 0 87 52 161 127 195l16-45c-56-29-95-86-95-150 0-14 2-27 5-40l-48-7zm134 207 20 44 26-64-46 20zm52-47 50-20-42-32-8 52zm-35-24 51 12 8-52-59 40z"/>
+                        </svg>
+                     </div>
+                    <span class="font-bold text-sm">PT</span>
+                </button>
+                <button onclick="window.app.setLanguage('en')" id="btn-lang-en" class="flex items-center px-4 py-2 rounded-md transition border shadow-sm bg-white text-gray-600 border-gray-200 hover:bg-gray-50">
+                    <div class="mr-2">
+                        <!-- Flag UK SVG -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" class="w-6 h-4 shadow-sm border border-gray-100">
+                            <clipPath id="s">
+                            <path d="M0,0 v30 h60 v-30 z"/>
+                            </clipPath>
+                            <clipPath id="t">
+                            <path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/>
+                            </clipPath>
+                            <g clipPath="url(#s)">
+                            <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
+                            <path d="M0,0 60,30 M60,0 0,30" stroke="#fff" strokeWidth="6"/>
+                            <path d="M0,0 60,30 M60,0 0,30" clipPath="url(#t)" stroke="#C8102E" strokeWidth="4"/>
+                            <path d="M30,0 v30 M0,15 h60" stroke="#fff" strokeWidth="10"/>
+                            <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" strokeWidth="6"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <span class="font-bold text-sm">EN</span>
+                </button>
+            </div>
+
+            <!-- Slogan Banner -->
+            <div class="bg-gradient-to-r from-red-700 via-black to-red-700 text-white p-8 text-center rounded-lg shadow-xl border-t-4 border-yellow-500 mb-12">
+                <h2 id="t-slogan" class="text-2xl md:text-3xl font-bold serif italic">
+                    “Proteger a fronteira é proteger Angola. Honra, coragem e cooperação ao serviço da soberania nacional.”
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Apresentação -->
+                <div class="bg-white p-8 rounded-lg shadow-md border-l-4 border-blue-900">
+                    <div class="flex items-center mb-4 text-blue-900">
+                        <i data-lucide="shield" class="w-8 h-8 mr-3"></i>
+                        <h3 id="t-presentationTitle" class="text-xl font-bold uppercase tracking-wider">Apresentação Institucional</h3>
+                    </div>
+                    <p id="t-presentationText" class="text-gray-700 leading-relaxed text-justify">
+                        A 10ª Unidade da Polícia de Guarda Fronteira (PGF), sediada em Lumbala Nguimbo, Província do Moxico, constitui um baluarte fundamental na preservação da integridade territorial de Angola. Operando numa vasta extensão de fronteira com a Zâmbia, esta unidade destaca-se pela sua prontidão operativa, fiscalização rigorosa dos marcos fronteiriços e combate incessante à imigração ilegal e crimes transfronteiriços.
+                    </p>
+                </div>
+
+                <!-- MVV -->
+                <div class="bg-white p-8 rounded-lg shadow-md border-l-4 border-yellow-500">
+                    <div class="flex items-center mb-4 text-yellow-600">
+                        <i data-lucide="target" class="w-8 h-8 mr-3"></i>
+                        <h3 id="t-mvvTitle" class="text-xl font-bold uppercase tracking-wider">Missão, Visão e Valores</h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-700">
+                        <li><strong id="t-mission" class="text-slate-900">Missão:</strong> <span id="t-missionText">Garantir a inviolabilidade da fronteira estatal, combatendo ameaças transversais e assegurando a ordem pública na zona de jurisdição.</span></li>
+                        <li><strong id="t-vision" class="text-slate-900">Visão:</strong> <span id="t-visionText">Ser uma unidade de excelência, moderna e adaptada aos desafios geopolíticos contemporâneos.</span></li>
+                        <li><strong id="t-values" class="text-slate-900">Valores:</strong> <span id="t-valuesText">Patriotismo, Legalidade, Integridade e Espírito de Corpo.</span></li>
+                    </ul>
+                </div>
+
+                <!-- História -->
+                <div class="bg-white p-8 rounded-lg shadow-md border-l-4 border-slate-700">
+                    <div class="flex items-center mb-4 text-slate-700">
+                        <i data-lucide="book-open" class="w-8 h-8 mr-3"></i>
+                        <h3 id="t-historyTitle" class="text-xl font-bold uppercase tracking-wider">História e Contexto</h3>
+                    </div>
+                    <p id="t-historyText" class="text-gray-700 leading-relaxed text-justify">
+                        Fundada num contexto de pacificação e reconstrução nacional, a 10ª Unidade evoluiu de destacamentos isolados para uma estrutura de comando unificada e tecnologicamente capacitada. Lumbala Nguimbo, ponto estratégico no leste de Angola, serve como centro nevrálgico para as operações que cobrem centenas de quilómetros de fronteira fluvial e terrestre, adaptando-se continuamente às dinâmicas regionais da SADC.
+                    </p>
+                </div>
+
+                <!-- Mensagem Comando -->
+                <div class="bg-slate-50 p-8 rounded-lg shadow-md border-l-4 border-red-600 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 opacity-10">
+                        <i data-lucide="award" class="w-32 h-32 text-slate-900"></i>
+                    </div>
+                    <div class="flex items-center mb-4 text-red-700 relative z-10">
+                        <i data-lucide="flag" class="w-8 h-8 mr-3"></i>
+                        <h3 id="t-commandTitle" class="text-xl font-bold uppercase tracking-wider">Mensagem do Comando</h3>
+                    </div>
+                    <div class="text-gray-700 leading-relaxed text-justify relative z-10">
+                        <p id="t-commandText" class="mb-4">
+                            "Camaradas e cidadãos, a nossa presença nestas terras do leste não é apenas um dever militar, é um compromisso sagrado com cada angolano. Enfrentamos o sol ardente e a chuva torrencial, as distâncias e as dificuldades, porque sabemos que a segurança de nossas famílias em todo o país começa aqui, nesta linha imaginária que defendemos com realidade física e moral."
+                        </p>
+                        <p id="t-finalQuote" class="font-bold text-slate-900 text-lg text-right mt-6 italic">
+                            "Proteger a fronteira é proteger Angola."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION: REPORTS ================= -->
+        <section id="view-reports" class="view-section hidden fade-in">
+            
+            <!-- Login State (Initially Visible) -->
+            <div id="report-login" class="max-w-md mx-auto mt-10">
+                <div class="bg-white p-8 rounded-lg shadow-xl border-t-4 border-yellow-500">
+                    <div class="flex justify-center mb-6 text-blue-900">
+                        <i data-lucide="shield-alert" class="w-16 h-16"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-center text-slate-900 mb-2">Acesso Restrito</h2>
+                    <p class="text-center text-gray-500 mb-6">Área Reservada ao Pessoal da PGF</p>
+                    <form onsubmit="window.app.login(event)" class="space-y-4">
+                        <input type="text" id="username" placeholder="Utilizador" class="w-full border p-3 rounded" required value="comandante">
+                        <input type="password" id="password" placeholder="Palavra-passe" class="w-full border p-3 rounded" required value="angola">
+                        <button type="submit" class="w-full bg-blue-900 text-white font-bold py-3 rounded hover:bg-blue-800 transition shadow-lg">Entrar</button>
+                    </form>
+                    <p class="text-xs text-center text-gray-400 mt-4">Login Demo: comandante / angola</p>
+                </div>
+            </div>
+
+            <!-- Reports Dashboard (Authenticated) -->
+            <div id="report-dashboard" class="hidden">
+                <!-- User Info Bar -->
+                <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-900 mb-6 flex justify-between items-center no-print">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-red-700 flex items-center justify-center text-white font-bold mr-3" id="user-avatar">C</div>
+                        <div>
+                            <p class="font-bold text-slate-800" id="user-name-display">Comandante</p>
+                            <p class="text-xs text-gray-500 uppercase font-semibold" id="user-role-display">COMANDANTE</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                         <button id="btn-manage-users" onclick="window.app.showUserManagement()" class="hidden bg-slate-200 text-slate-700 px-3 py-2 rounded flex items-center hover:bg-slate-300 transition text-sm font-semibold">
+                            <i data-lucide="users" class="mr-2 w-4 h-4"></i> Utilizadores
+                        </button>
+                        <button onclick="window.app.logout()" class="text-red-600 hover:bg-red-50 px-3 py-2 rounded text-sm font-bold border border-red-200 flex items-center">
+                            <i data-lucide="log-out" class="mr-2 w-4 h-4"></i> Sair
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 1. List View -->
+                <div id="reports-list-view">
+                    <div class="flex justify-between items-center mb-6 no-print">
+                        <h2 class="text-2xl font-bold text-slate-800 flex items-center">
+                            <i data-lucide="file-text" class="mr-2"></i> Arquivo de Relatórios
+                        </h2>
+                        <button onclick="window.app.showCreateReport()" class="bg-blue-900 text-white px-4 py-2 rounded flex items-center hover:bg-blue-800 shadow-lg">
+                            <i data-lucide="plus" class="mr-2 w-4 h-4"></i> Novo Relatório
+                        </button>
+                    </div>
+
+                    <!-- List Container -->
+                    <div id="reports-list-container" class="space-y-4 no-print">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- 2. Create/Edit Report Form -->
+                <div id="create-report-view" class="hidden bg-white p-6 rounded shadow-lg max-w-4xl mx-auto no-print">
+                    <div class="flex justify-between items-center mb-6 border-b pb-4">
+                        <h2 id="report-form-title" class="text-xl font-bold text-slate-800">Novo Relatório Operativo</h2>
+                        <button onclick="window.app.cancelCreateReport()" class="text-gray-500 hover:text-red-500">Cancelar</button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Tipo</label>
+                            <select id="report-type" class="w-full border p-2 rounded">
+                                <option>Semanal</option>
+                                <option>Mensal</option>
+                                <option>Trimestral</option>
+                                <option>Semestral</option>
+                                <option>Anual</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Data</label>
+                            <input type="date" id="report-date" class="w-full border p-2 rounded">
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Dados Estatísticos</label>
+                        <table class="w-full border-collapse mb-2" id="stats-table-form">
+                            <thead>
+                                <tr class="bg-gray-100 text-left text-xs uppercase">
+                                    <th class="p-2">Item / Ocorrência</th>
+                                    <th class="p-2 w-24">Qtd</th>
+                                    <th class="p-2">Descrição</th>
+                                    <th class="p-2 w-10"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="stats-form-body">
+                                <!-- JS inserts rows here -->
+                            </tbody>
+                        </table>
+                        <button onclick="window.app.addStatRow()" class="text-sm text-blue-900 font-bold flex items-center mt-2">
+                            <i data-lucide="plus" class="mr-1 w-4 h-4"></i> Adicionar Linha
+                        </button>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                             <label class="block text-sm font-bold text-gray-700">Introdução / Síntese</label>
+                             <button onclick="window.app.generateAIIntro()" class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded flex items-center hover:bg-purple-200">
+                                <i data-lucide="sparkles" class="w-3 h-3 mr-1"></i> Gerar com IA
+                             </button>
+                        </div>
+                        <textarea id="report-intro" rows="6" class="w-full border p-2 rounded" placeholder="Escreva a introdução..."></textarea>
+                    </div>
+
+                    <div class="mb-8">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Anexos Fotográficos</label>
+                        <input type="file" id="report-images" multiple accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
+                        <div id="image-preview-container" class="flex gap-2 mt-4 overflow-x-auto"></div>
+                    </div>
+
+                    <div class="flex justify-end pt-4 border-t">
+                        <button onclick="window.app.saveReport()" class="bg-green-700 text-white px-6 py-2 rounded font-bold hover:bg-green-800">
+                            Salvar Relatório
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. Report Preview / Print View -->
+                <div id="report-preview-view" class="hidden bg-white text-black p-8 max-w-[21cm] mx-auto shadow-2xl print:shadow-none print:w-full print:max-w-none">
+                     <!-- Navigation for Preview -->
+                     <div class="flex justify-between items-center mb-8 no-print border-b pb-4">
+                         <div class="flex items-center gap-4">
+                             <button onclick="window.app.closePreview()" class="text-blue-900 underline font-semibold text-sm">Voltar</button>
+                             <div id="approval-actions" class="hidden pl-4 border-l border-gray-300 gap-2">
+                                 <!-- Dynamic Buttons -->
+                             </div>
+                         </div>
+                         <button onclick="window.print()" class="bg-slate-900 text-white px-4 py-2 rounded flex items-center hover:bg-slate-800">
+                             <i data-lucide="printer" class="mr-2 w-4 h-4"></i> Imprimir / Salvar PDF
+                         </button>
+                     </div>
+
+                     <!-- Status Badge -->
+                     <div class="no-print absolute top-2 right-2">
+                        <span id="preview-status-badge" class="text-xs font-bold px-2 py-1 rounded border"></span>
+                     </div>
+
+                     <!-- Official Header -->
+                     <div class="flex flex-col items-center mb-6 pb-4 border-b-2 border-black">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Emblem_of_Angola.svg/1200px-Emblem_of_Angola.svg.png" alt="Brasão" class="h-20 w-auto mb-2 opacity-90" />
+                        <h1 class="text-xl font-bold uppercase text-center leading-tight">República de Angola</h1>
+                        <h2 class="text-lg font-bold uppercase text-center leading-tight">Ministério do Interior</h2>
+                        <h3 class="text-md font-bold uppercase text-center leading-tight">Comando Geral da Polícia Nacional</h3>
+                        <h4 class="text-md font-semibold uppercase mt-2 text-center">10ª Unidade da Polícia de Guarda Fronteira - Lumbala Nguimbo</h4>
+                     </div>
+
+                     <!-- Meta Data -->
+                     <div class="flex justify-between mb-8 text-sm font-mono border-b border-gray-300 pb-2">
+                        <span id="preview-ref">REF: ---</span>
+                        <span id="preview-date">DATA: ---</span>
+                        <span id="preview-type">TIPO: ---</span>
+                     </div>
+
+                     <!-- Content -->
+                     <div class="mb-6">
+                        <h3 class="text-lg font-bold uppercase border-l-4 border-black pl-3 mb-3">1. Introdução</h3>
+                        <p id="preview-intro" class="text-justify leading-relaxed whitespace-pre-wrap"></p>
+                     </div>
+
+                     <div class="mb-6 break-inside-avoid">
+                        <h3 class="text-lg font-bold uppercase border-l-4 border-black pl-3 mb-3">2. Dados Operativos</h3>
+                        <table class="w-full border-collapse border border-black text-sm">
+                            <thead>
+                                <tr class="bg-gray-200">
+                                    <th class="border border-black p-2 text-left">Ocorrência / Item</th>
+                                    <th class="border border-black p-2 text-center w-24">Qtd</th>
+                                    <th class="border border-black p-2 text-left">Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="preview-stats-body">
+                                <!-- JS inserts -->
+                            </tbody>
+                        </table>
+                     </div>
+
+                     <div id="preview-images-section" class="mb-6 break-inside-avoid hidden">
+                        <h3 class="text-lg font-bold uppercase border-l-4 border-black pl-3 mb-3">3. Anexos Fotográficos</h3>
+                        <div id="preview-images-grid" class="grid grid-cols-2 gap-4">
+                            <!-- JS inserts -->
+                        </div>
+                     </div>
+
+                     <!-- Signatures -->
+                     <div class="mt-16 pt-8 flex justify-between items-end break-inside-avoid">
+                        <div class="text-center w-1/3">
+                          <p class="border-t border-black pt-2 font-bold" id="preview-author">---</p>
+                          <p class="text-xs uppercase">O Elaborador</p>
+                        </div>
+                        <div class="text-center w-1/3">
+                          <p class="border-t border-black pt-2 font-bold">Comandante da Unidade</p>
+                          <p class="text-xs uppercase">Visto e Aprovado</p>
+                          <div id="approved-stamp" class="hidden text-green-800 text-xs font-bold border-2 border-green-800 inline-block px-2 py-1 mt-2 transform -rotate-12 opacity-80">
+                             APROVADO / PGF
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="mt-8 text-center text-xs text-gray-500">
+                        <p>"Proteger a fronteira é proteger Angola."</p>
+                      </div>
+                </div>
+
+                <!-- 4. User Management (Simplified) -->
+                <div id="user-management-view" class="hidden bg-white p-6 rounded shadow-lg max-w-4xl mx-auto no-print">
+                     <div class="flex justify-between items-center mb-6 border-b pb-4">
+                        <h2 class="text-xl font-bold text-slate-800 flex items-center">
+                            <i data-lucide="users" class="mr-2"></i> Gestão de Utilizadores
+                        </h2>
+                        <button onclick="window.app.cancelUserManagement()" class="text-gray-500 hover:text-blue-900">Voltar</button>
+                    </div>
+
+                    <!-- Create/Edit Form -->
+                    <div class="bg-gray-50 p-4 rounded border mb-8">
+                        <h3 class="font-bold text-sm mb-3 uppercase text-blue-900" id="user-form-title">Criar Novo Utilizador</h3>
+                        <form onsubmit="window.app.saveUser(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="hidden" id="user-id">
+                            <input type="text" id="user-name" placeholder="Nome Completo" class="p-2 border rounded" required>
+                            <input type="text" id="user-username" placeholder="Utilizador (Login)" class="p-2 border rounded" required>
+                            <input type="text" id="user-password" placeholder="Palavra-passe" class="p-2 border rounded" required>
+                            <select id="user-role" class="p-2 border rounded bg-white">
+                                <option value="AGENTE">Agente</option>
+                                <option value="CHEFE_POSTO">Chefe de Posto</option>
+                                <option value="COMANDANTE">Comandante</option>
+                            </select>
+                            <div class="md:col-span-2 flex justify-end gap-2">
+                                <button type="button" onclick="window.app.resetUserForm()" class="px-4 py-2 text-gray-600 hover:bg-gray-200 rounded">Limpar</button>
+                                <button type="submit" class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 font-bold">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- User List -->
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700">
+                                <th class="p-3 border-b">Nome</th>
+                                <th class="p-3 border-b">Utilizador</th>
+                                <th class="p-3 border-b">Cargo</th>
+                                <th class="p-3 border-b text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-list-body">
+                            <!-- JS inserts -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= SECTION: GALLERY ================= -->
+        <section id="view-gallery" class="view-section hidden fade-in">
+            <h2 class="text-3xl font-bold text-slate-900 mb-8 border-b-2 border-yellow-500 pb-2 inline-block">Galeria de Operações</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Static Images -->
+                <div class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 bg-gray-200">
+                    <img src="https://picsum.photos/800/600?random=1" class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition duration-300">
+                        <p class="text-white font-semibold text-sm">Patrulha Fluvial</p>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 bg-gray-200">
+                    <img src="https://picsum.photos/800/600?random=2" class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition duration-300">
+                        <p class="text-white font-semibold text-sm">Inspeção de Marco</p>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 bg-gray-200">
+                    <img src="https://picsum.photos/800/600?random=3" class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition duration-300">
+                        <p class="text-white font-semibold text-sm">Formatura Geral</p>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 bg-gray-200">
+                    <img src="https://picsum.photos/800/600?random=4" class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition duration-300">
+                        <p class="text-white font-semibold text-sm">Apreensão de Mercadoria</p>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 bg-gray-200">
+                    <img src="https://picsum.photos/800/600?random=5" class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition duration-300">
+                        <p class="text-white font-semibold text-sm">Cooperação Bilateral</p>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-64 bg-gray-200">
+                    <img src="https://picsum.photos/800/600?random=6" class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition duration-300">
+                        <p class="text-white font-semibold text-sm">Treino Tático</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION: GEOPOLITICS ================= -->
+        <section id="view-geopolitics" class="view-section hidden fade-in">
+            <div class="flex items-center justify-between mb-8 border-b-2 border-blue-900 pb-4">
+                <div class="flex items-center">
+                  <i data-lucide="globe" class="w-10 h-10 text-blue-900 mr-4"></i>
+                  <h2 class="text-3xl font-bold text-slate-900">Análise Geopolítica: Moxico</h2>
+                </div>
+                <button onclick="window.app.fetchGeopolitics()" id="btn-refresh-geo" class="flex items-center bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2 rounded transition">
+                  <i data-lucide="refresh-cw" class="w-4 h-4 mr-2"></i> Atualizar Análise
+                </button>
+            </div>
+        
+            <div class="bg-white p-8 rounded shadow-lg border-t-4 border-yellow-500 min-h-[400px] relative">
+                <div id="geo-loading" class="hidden absolute inset-0 bg-white/80 flex flex-col items-center justify-center z-10">
+                     <div class="w-12 h-12 border-4 border-blue-900 border-t-transparent rounded-full animate-spin mb-4"></div>
+                     <p class="font-bold text-blue-900">Consultando inteligência estratégica (Gemini AI)...</p>
+                </div>
+                <div id="geo-content" class="prose lg:prose-xl text-justify max-w-none prose-headings:text-slate-900 prose-p:text-gray-700">
+                    <p>Clique em "Atualizar Análise" para gerar um relatório de inteligência em tempo real sobre a situação fronteiriça em Lumbala Nguimbo e arredores.</p>
+                </div>
+            </div>
+            <p class="text-xs text-gray-400 mt-4 text-center">* Análise gerada por Inteligência Artificial (Google Gemini) com base em dados públicos.</p>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-gray-400 py-8 no-print mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <div class="mb-4">
+                <h4 class="text-white font-bold uppercase">10ª Unidade PGF</h4>
+                <p class="text-sm">Lumbala Nguimbo, Moxico, Angola</p>
+            </div>
+            <div class="border-t border-slate-800 pt-4 text-xs flex flex-col items-center">
+                <p class="mb-2 italic">“Proteger a fronteira é proteger Angola.”</p>
+                <p>&copy; <span id="year"></span> Ministério do Interior - Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LOGIC MODULE -->
+    <script type="module">
+        import { GoogleGenAI } from "@google/genai";
+        
+        // --- CONFIGURATION ---
+        const API_KEY = (typeof process !== 'undefined' && process.env && process.env.API_KEY) 
+                        ? process.env.API_KEY 
+                        : "YOUR_GEMINI_API_KEY_HERE"; 
+
+        const DB_KEYS = {
+            REPORTS: 'pgf_reports_db_v1',
+            USERS: 'pgf_users_db_v1'
+        };
+
+        const DEFAULT_USERS = [
+            { id: '1', username: 'comandante', password: 'angola', name: 'Cmdt. António Silva', role: 'COMANDANTE' },
+            { id: '2', username: 'chefe', password: 'angola', name: 'Chf. Pedro Miguel', role: 'CHEFE_POSTO' },
+            { id: '3', username: 'agente', password: 'angola', name: 'Ag. João Manuel', role: 'AGENTE' }
+        ];
+
+        // --- DATABASE SERVICE (Simulated) ---
+        const db = {
+            users: {
+                getAll: () => {
+                    const data = localStorage.getItem(DB_KEYS.USERS);
+                    if (!data) {
+                        localStorage.setItem(DB_KEYS.USERS, JSON.stringify(DEFAULT_USERS));
+                        return DEFAULT_USERS;
+                    }
+                    return JSON.parse(data);
+                },
+                save: (user) => {
+                    const users = db.users.getAll();
+                    users.push(user);
+                    localStorage.setItem(DB_KEYS.USERS, JSON.stringify(users));
+                },
+                update: (updatedUser) => {
+                    const users = db.users.getAll();
+                    const index = users.findIndex(u => u.id === updatedUser.id);
+                    if (index !== -1) {
+                        users[index] = updatedUser;
+                        localStorage.setItem(DB_KEYS.USERS, JSON.stringify(users));
+                    }
+                },
+                delete: (id) => {
+                    const users = db.users.getAll();
+                    const filtered = users.filter(u => u.id !== id);
+                    localStorage.setItem(DB_KEYS.USERS, JSON.stringify(filtered));
+                }
+            },
+            reports: {
+                getAll: () => {
+                    const data = localStorage.getItem(DB_KEYS.REPORTS);
+                    return data ? JSON.parse(data) : [];
+                },
+                create: (user, type, intro, stats, images) => {
+                    const currentReports = db.reports.getAll();
+                    
+                    const sequence = (currentReports.length + 1).toString().padStart(4, '0');
+                    const userTag = user.username.toUpperCase().replace(/\s+/g, '');
+                    const year = new Date().getFullYear();
+                    const reportId = `${year}-PGF10-${userTag}-${sequence}`;
+
+                    const newReport = {
+                        id: reportId,
+                        timestamp: Date.now(),
+                        date: new Date().toISOString().split('T')[0], // YYYY-MM-DD
+                        author: user.name,
+                        authorId: user.id,
+                        role: user.role,
+                        type: type,
+                        intro: intro,
+                        stats: stats,
+                        images: images,
+                        status: 'Pendente'
+                    };
+
+                    const updatedReports = [newReport, ...currentReports];
+                    localStorage.setItem(DB_KEYS.REPORTS, JSON.stringify(updatedReports));
+                    return newReport;
+                },
+                update: (updatedReport) => {
+                     const currentReports = db.reports.getAll();
+                     const index = currentReports.findIndex(r => r.id === updatedReport.id);
+                     if (index !== -1) {
+                         currentReports[index] = { ...currentReports[index], ...updatedReport };
+                         localStorage.setItem(DB_KEYS.REPORTS, JSON.stringify(currentReports));
+                     }
+                },
+                delete: (id) => {
+                    const currentReports = db.reports.getAll();
+                    const filtered = currentReports.filter(r => r.id !== id);
+                    localStorage.setItem(DB_KEYS.REPORTS, JSON.stringify(filtered));
+                },
+                updateStatus: (reportId, status) => {
+                    const reports = db.reports.getAll();
+                    const updatedReports = reports.map(r => r.id === reportId ? { ...r, status } : r);
+                    localStorage.setItem(DB_KEYS.REPORTS, JSON.stringify(updatedReports));
+                    return updatedReports;
+                }
+            }
+        };
+
+        // --- STATE ---
+        const state = {
+            currentUser: null,
+            currentReportImages: [],
+            editingReportId: null
+        };
+
+        // --- INIT ---
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            if (window.lucide) {
+                window.lucide.createIcons();
+            } else {
+                setTimeout(() => window.lucide && window.lucide.createIcons(), 500);
+            }
+            
+            db.users.getAll();
+            router.navigate('home');
+            app.addStatRow();
+            
+            const dateInput = document.getElementById('report-date');
+            if(dateInput) dateInput.valueAsDate = new Date();
+        });
+
+        // --- ROUTING ---
+        const router = {
+            navigate: (viewName) => {
+                document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+                document.querySelectorAll('.nav-btn').forEach(el => {
+                    el.classList.remove('text-yellow-500', 'border-yellow-500');
+                    el.classList.add('border-transparent');
+                });
+
+                const target = document.getElementById(`view-${viewName}`);
+                if (target) target.classList.remove('hidden');
+
+                const navBtn = document.querySelector(`.nav-btn[data-view="${viewName}"]`);
+                if (navBtn) {
+                    navBtn.classList.add('text-yellow-500', 'border-yellow-500');
+                    navBtn.classList.remove('border-transparent');
+                }
+                
+                if (window.lucide) window.lucide.createIcons();
+                window.scrollTo(0,0);
+            }
+        };
+
+        // --- APP LOGIC ---
+        const app = {
+            translations: {
+                pt: {
+                    slogan: "“Proteger a fronteira é proteger Angola. Honra, coragem e cooperação ao serviço da soberania nacional.”",
+                    presentationTitle: "Apresentação Institucional",
+                    presentationText: "A 10ª Unidade da Polícia de Guarda Fronteira (PGF), sediada em Lumbala Nguimbo, Província do Moxico, constitui um baluarte fundamental na preservação da integridade territorial de Angola. Operando numa vasta extensão de fronteira com a Zâmbia, esta unidade destaca-se pela sua prontidão operativa, fiscalização rigorosa dos marcos fronteiriços e combate incessante à imigração ilegal e crimes transfronteiriços.",
+                    mvvTitle: "Missão, Visão e Valores",
+                    mission: "Missão:",
+                    missionText: "Garantir a inviolabilidade da fronteira estatal, combatendo ameaças transversais e assegurando a ordem pública na zona de jurisdição.",
+                    vision: "Visão:",
+                    visionText: "Ser uma unidade de excelência, moderna e adaptada aos desafios geopolíticos contemporâneos.",
+                    values: "Valores:",
+                    valuesText: "Patriotismo, Legalidade, Integridade e Espírito de Corpo.",
+                    historyTitle: "História e Contexto",
+                    historyText: "Fundada num contexto de pacificação e reconstrução nacional, a 10ª Unidade evoluiu de destacamentos isolados para uma estrutura de comando unificada e tecnologicamente capacitada. Lumbala Nguimbo, ponto estratégico no leste de Angola, serve como centro nevrálgico para as operações que cobrem centenas de quilómetros de fronteira fluvial e terrestre, adaptando-se continuamente às dinâmicas regionais da SADC.",
+                    commandTitle: "Mensagem do Comando",
+                    commandText: "Camaradas e cidadãos, a nossa presença nestas terras do leste não é apenas um dever militar, é um compromisso sagrado com cada angolano. Enfrentamos o sol ardente e a chuva torrencial, as distâncias e as dificuldades, porque sabemos que a segurança de nossas famílias em todo o país começa aqui, nesta linha imaginária que defendemos com realidade física e moral.",
+                    finalQuote: "\"Proteger a fronteira é proteger Angola.\""
+                },
+                en: {
+                    slogan: "“Protecting the border is protecting Angola. Honor, courage, and cooperation in the service of national sovereignty.”",
+                    presentationTitle: "Institutional Presentation",
+                    presentationText: "The 10th Border Guard Police Unit (PGF), based in Lumbala Nguimbo, Moxico Province, constitutes a fundamental bulwark in preserving Angola's territorial integrity. Operating across a vast stretch of the border with Zambia, this unit stands out for its operational readiness, rigorous inspection of border markers, and ceaseless combat against illegal immigration and cross-border crimes.",
+                    mvvTitle: "Mission, Vision and Values",
+                    mission: "Mission:",
+                    missionText: "To guarantee the inviolability of the state border, combating cross-cutting threats and ensuring public order in the jurisdiction zone.",
+                    vision: "Vision:",
+                    visionText: "To be a unit of excellence, modern and adapted to contemporary geopolitical challenges.",
+                    values: "Values:",
+                    valuesText: "Patriotism, Legality, Integrity, and Esprit de Corps.",
+                    historyTitle: "History and Context",
+                    historyText: "Founded in a context of pacification and national reconstruction, the 10th Unit evolved from isolated detachments to a unified command structure, technologically empowered. Lumbala Nguimbo, a strategic point in eastern Angola, serves as the nerve center for operations covering hundreds of kilometers of river and land borders, continuously adapting to regional SADC dynamics.",
+                    commandTitle: "Command Message",
+                    commandText: "Comrades and citizens, our presence in these eastern lands is not just a military duty, it is a sacred commitment to every Angolan. We face the burning sun and torrential rain, distances and difficulties, because we know that the safety of our families across the country begins here, on this imaginary line that we defend with physical and moral reality.",
+                    finalQuote: "\"Protecting the border is protecting Angola.\""
+                }
+            },
+
+            setLanguage: (lang) => {
+                const t = app.translations[lang];
+                const setText = (id, text) => {
+                    const el = document.getElementById(id);
+                    if(el) el.textContent = text;
+                };
+                setText('t-slogan', t.slogan);
+                setText('t-presentationTitle', t.presentationTitle);
+                setText('t-presentationText', t.presentationText);
+                setText('t-mvvTitle', t.mvvTitle);
+                setText('t-mission', t.mission);
+                setText('t-missionText', t.missionText);
+                setText('t-vision', t.vision);
+                setText('t-visionText', t.visionText);
+                setText('t-values', t.values);
+                setText('t-valuesText', t.valuesText);
+                setText('t-historyTitle', t.historyTitle);
+                setText('t-historyText', t.historyText);
+                setText('t-commandTitle', t.commandTitle);
+                setText('t-commandText', t.commandText);
+                setText('t-finalQuote', t.finalQuote);
+
+                const btnPt = document.getElementById('btn-lang-pt');
+                const btnEn = document.getElementById('btn-lang-en');
+                const activeClass = "bg-blue-900 text-white border-blue-900";
+                const inactiveClass = "bg-white text-gray-600 border-gray-200 hover:bg-gray-50";
+
+                if (lang === 'pt') {
+                    if(btnPt) btnPt.className = `flex items-center px-4 py-2 rounded-md transition border shadow-sm ${activeClass}`;
+                    if(btnEn) btnEn.className = `flex items-center px-4 py-2 rounded-md transition border shadow-sm ${inactiveClass}`;
+                } else {
+                    if(btnPt) btnPt.className = `flex items-center px-4 py-2 rounded-md transition border shadow-sm ${inactiveClass}`;
+                    if(btnEn) btnEn.className = `flex items-center px-4 py-2 rounded-md transition border shadow-sm ${activeClass}`;
+                }
+            },
+
+            login: (e) => {
+                e.preventDefault();
+                const u = document.getElementById('username').value;
+                const p = document.getElementById('password').value;
+                
+                const users = db.users.getAll();
+                const user = users.find(usr => usr.username === u && usr.password === p);
+                
+                if (user) {
+                    state.currentUser = user;
+                    document.getElementById('report-login').classList.add('hidden');
+                    document.getElementById('report-dashboard').classList.remove('hidden');
+                    
+                    document.getElementById('user-name-display').textContent = user.name;
+                    document.getElementById('user-role-display').textContent = user.role;
+                    
+                    const avatar = document.getElementById('user-avatar');
+                    avatar.className = 'w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mr-3';
+                    if(user.role === 'COMANDANTE') {
+                        avatar.classList.add('bg-red-700');
+                        document.getElementById('btn-manage-users').classList.remove('hidden');
+                    } else if (user.role === 'CHEFE_POSTO') {
+                         avatar.classList.add('bg-yellow-600');
+                    } else {
+                         avatar.classList.add('bg-blue-600');
+                    }
+                    
+                    app.renderReportsList();
+                } else {
+                    alert('Credenciais inválidas.');
+                }
+            },
+
+            logout: () => {
+                state.currentUser = null;
+                document.getElementById('report-login').classList.remove('hidden');
+                document.getElementById('report-dashboard').classList.add('hidden');
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                document.getElementById('btn-manage-users').classList.add('hidden');
+            },
+
+            // --- REPORT MANAGEMENT ---
+            showCreateReport: () => {
+                document.getElementById('reports-list-view').classList.add('hidden');
+                document.getElementById('create-report-view').classList.remove('hidden');
+                document.getElementById('report-form-title').textContent = "Novo Relatório Operativo";
+                
+                state.editingReportId = null;
+                state.currentReportImages = [];
+                
+                // Clear inputs
+                document.getElementById('report-intro').value = '';
+                document.getElementById('stats-form-body').innerHTML = '';
+                document.getElementById('image-preview-container').innerHTML = '';
+                document.getElementById('report-date').valueAsDate = new Date();
+                app.addStatRow();
+            },
+
+            editReport: (id) => {
+                const reports = db.reports.getAll();
+                const report = reports.find(r => r.id === id);
+                if (!report) return;
+
+                state.editingReportId = id;
+                state.currentReportImages = report.images || [];
+
+                document.getElementById('reports-list-view').classList.add('hidden');
+                document.getElementById('create-report-view').classList.remove('hidden');
+                document.getElementById('report-form-title').textContent = `Editar Relatório: ${id}`;
+
+                // Populate fields
+                document.getElementById('report-type').value = report.type;
+                if(report.date) {
+                   document.getElementById('report-date').value = report.date;
+                }
+                document.getElementById('report-intro').value = report.intro;
+
+                // Populate Stats
+                const tbody = document.getElementById('stats-form-body');
+                tbody.innerHTML = '';
+                if(report.stats && report.stats.length > 0) {
+                    report.stats.forEach(stat => {
+                        app.addStatRow(stat.item, stat.quantity, stat.description);
+                    });
+                } else {
+                    app.addStatRow();
+                }
+
+                // Populate Images
+                const container = document.getElementById('image-preview-container');
+                container.innerHTML = '';
+                state.currentReportImages.forEach(src => {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'flex-shrink-0 relative';
+                    imgDiv.innerHTML = `<img src="${src}" class="h-24 w-24 object-cover rounded border border-gray-300">`;
+                    container.appendChild(imgDiv);
+                });
+            },
+
+            deleteReport: (id) => {
+                if(confirm('Tem a certeza que deseja apagar este relatório permanentemente?')) {
+                    db.reports.delete(id);
+                    app.renderReportsList();
+                }
+            },
+
+            cancelCreateReport: () => {
+                document.getElementById('reports-list-view').classList.remove('hidden');
+                document.getElementById('create-report-view').classList.add('hidden');
+                state.editingReportId = null;
+            },
+
+            addStatRow: (item = '', qty = 0, desc = '') => {
+                const tbody = document.getElementById('stats-form-body');
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-2 border"><input type="text" class="stat-item w-full p-1" placeholder="Ex: Imigração Ilegal" value="${item}"></td>
+                    <td class="p-2 border"><input type="number" class="stat-qty w-full p-1 text-center" value="${qty}"></td>
+                    <td class="p-2 border"><input type="text" class="stat-desc w-full p-1" placeholder="Detalhes" value="${desc}"></td>
+                    <td class="p-2 border text-center">
+                        <button onclick="this.closest('tr').remove(); if(window.lucide) window.lucide.createIcons();" class="text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+                if(window.lucide) window.lucide.createIcons();
+            },
+
+            handleImageUpload: (event) => {
+                const files = event.target.files;
+                if (!files) return;
+
+                Array.from(files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const src = e.target.result;
+                        state.currentReportImages.push(src);
+                        const imgDiv = document.createElement('div');
+                        imgDiv.className = 'flex-shrink-0 relative';
+                        imgDiv.innerHTML = `<img src="${src}" class="h-24 w-24 object-cover rounded border border-gray-300">`;
+                        document.getElementById('image-preview-container').appendChild(imgDiv);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            },
+
+            generateAIIntro: async () => {
+                if (!API_KEY || API_KEY.includes('YOUR_')) {
+                    alert('Chave de API não configurada. Por favor, insira uma chave API válida no código.');
+                    return;
+                }
+
+                const rows = document.querySelectorAll('#stats-form-body tr');
+                const stats = [];
+                rows.forEach(row => {
+                    const item = row.querySelector('.stat-item').value;
+                    if(item) {
+                        stats.push({
+                            item: item,
+                            quantity: row.querySelector('.stat-qty').value,
+                            desc: row.querySelector('.stat-desc').value
+                        });
+                    }
+                });
+
+                const button = document.querySelector('button[onclick="window.app.generateAIIntro()"]');
+                const originalText = button.innerHTML;
+                button.innerHTML = 'Gerando...';
+                button.disabled = true;
+
+                try {
+                    const ai = new GoogleGenAI({ apiKey: API_KEY });
+                    const response = await ai.models.generateContent({
+                        model: 'gemini-2.5-flash',
+                        contents: `Atue como um oficial da Polícia de Guarda Fronteira de Angola. 
+                        Escreva uma introdução formal para um relatório operativo baseada nestes dados: ${JSON.stringify(stats)}. 
+                        O tom deve ser oficial e patriótico.`
+                    });
+                    
+                    document.getElementById('report-intro').value = response.text;
+                } catch (error) {
+                    console.error(error);
+                    alert('Erro ao conectar com a IA.');
+                } finally {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    if(window.lucide) window.lucide.createIcons();
+                }
+            },
+
+            saveReport: () => {
+                const type = document.getElementById('report-type').value;
+                const intro = document.getElementById('report-intro').value;
+                const date = document.getElementById('report-date').value;
+                
+                const stats = [];
+                document.querySelectorAll('#stats-form-body tr').forEach(row => {
+                    const item = row.querySelector('.stat-item').value;
+                    if(item) {
+                        stats.push({
+                            item: item,
+                            quantity: row.querySelector('.stat-qty').value,
+                            description: row.querySelector('.stat-desc').value
+                        });
+                    }
+                });
+
+                if (state.editingReportId) {
+                    // Update Mode
+                    db.reports.update({
+                        id: state.editingReportId,
+                        type,
+                        intro,
+                        date,
+                        stats,
+                        images: state.currentReportImages
+                    });
+                } else {
+                    // Create Mode
+                    db.reports.create(
+                        state.currentUser,
+                        type,
+                        intro,
+                        stats,
+                        state.currentReportImages
+                    );
+                }
+                
+                app.cancelCreateReport();
+                app.renderReportsList();
+            },
+
+            renderReportsList: () => {
+                const container = document.getElementById('reports-list-container');
+                container.innerHTML = '';
+
+                const reports = db.reports.getAll();
+
+                if (reports.length === 0) {
+                    container.innerHTML = '<div class="text-center p-8 text-gray-500 bg-gray-50 rounded">Nenhum relatório encontrado.</div>';
+                    return;
+                }
+
+                reports.forEach(report => {
+                    const div = document.createElement('div');
+                    div.className = 'bg-white p-4 rounded shadow hover:shadow-md transition flex justify-between items-center border-l-4 border-yellow-500';
+                    div.innerHTML = `
+                        <div>
+                            <h3 class="font-bold text-lg flex items-center">
+                                Relatório Operativo ${report.type}
+                                <span class="ml-3 text-xs px-2 py-0.5 rounded border font-normal 
+                                    ${report.status === 'Aprovado' ? 'bg-green-50 text-green-700 border-green-200' : 
+                                      report.status === 'Visto' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' : 
+                                      'bg-gray-50 text-gray-500 border-gray-200'}">
+                                    ${report.status}
+                                </span>
+                            </h3>
+                            <p class="text-sm text-gray-500 mt-1">
+                                Ref: ${report.id} | Autor: ${report.author} | Data: ${report.date || new Date(report.timestamp).toLocaleDateString()}
+                            </p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="window.app.previewReport('${report.id}')" title="Visualizar" class="text-blue-900 hover:text-blue-700 font-semibold text-sm border border-blue-900 px-3 py-1 rounded">
+                                Visualizar
+                            </button>
+                            <button onclick="window.app.editReport('${report.id}')" title="Editar" class="text-gray-600 hover:text-blue-800 border border-gray-300 hover:border-blue-800 px-2 py-1 rounded">
+                                <i data-lucide="pencil" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="window.app.deleteReport('${report.id}')" title="Apagar" class="text-gray-600 hover:text-red-600 border border-gray-300 hover:border-red-600 px-2 py-1 rounded">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+                if(window.lucide) window.lucide.createIcons();
+            },
+
+            previewReport: (id) => {
+                const reports = db.reports.getAll();
+                const report = reports.find(r => r.id === id);
+                if (!report) return;
+
+                document.getElementById('preview-ref').textContent = `REF: ${report.id}`;
+                document.getElementById('preview-date').textContent = `DATA: ${report.date || new Date(report.timestamp).toLocaleDateString()}`;
+                document.getElementById('preview-type').textContent = `TIPO: ${report.type.toUpperCase()}`;
+                document.getElementById('preview-intro').textContent = report.intro;
+                document.getElementById('preview-author').textContent = report.author;
+
+                const statusBadge = document.getElementById('preview-status-badge');
+                statusBadge.textContent = report.status.toUpperCase();
+                statusBadge.className = report.status === 'Aprovado' ? 'text-green-800 border-green-300 bg-green-100 text-xs font-bold px-2 py-1 rounded border' : 
+                                       (report.status === 'Visto' ? 'text-yellow-800 border-yellow-300 bg-yellow-100 text-xs font-bold px-2 py-1 rounded border' : 'text-gray-600 border-gray-300 bg-gray-100 text-xs font-bold px-2 py-1 rounded border');
+
+                const tbody = document.getElementById('preview-stats-body');
+                tbody.innerHTML = '';
+                report.stats.forEach(stat => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td class="border border-black p-2 font-semibold">${stat.item}</td>
+                            <td class="border border-black p-2 text-center">${stat.quantity}</td>
+                            <td class="border border-black p-2">${stat.description}</td>
+                        </tr>
+                    `;
+                });
+
+                const imgSection = document.getElementById('preview-images-section');
+                const imgGrid = document.getElementById('preview-images-grid');
+                if (report.images && report.images.length > 0) {
+                    imgSection.classList.remove('hidden');
+                    imgGrid.innerHTML = '';
+                    report.images.forEach((src, idx) => {
+                        imgGrid.innerHTML += `
+                            <div class="border border-gray-300 p-1">
+                                <img src="${src}" class="w-full h-48 object-cover">
+                                <p class="text-xs text-center mt-1 italic">Fig ${idx + 1}. Evidência</p>
+                            </div>
+                        `;
+                    });
+                } else {
+                    imgSection.classList.add('hidden');
+                }
+
+                const stamp = document.getElementById('approved-stamp');
+                if (report.status === 'Aprovado') {
+                    stamp.classList.remove('hidden');
+                } else {
+                    stamp.classList.add('hidden');
+                }
+
+                const actionsContainer = document.getElementById('approval-actions');
+                actionsContainer.innerHTML = '';
+                actionsContainer.classList.add('hidden');
+
+                if (state.currentUser && report.status !== 'Aprovado') {
+                    if (state.currentUser.role === 'COMANDANTE') {
+                        actionsContainer.classList.remove('hidden');
+                        actionsContainer.classList.add('flex');
+                        const btn = document.createElement('button');
+                        btn.className = "bg-green-700 hover:bg-green-800 text-white text-xs px-3 py-1.5 rounded font-bold";
+                        btn.textContent = "Aprovar Relatório";
+                        btn.onclick = () => app.updateStatus(id, 'Aprovado');
+                        actionsContainer.appendChild(btn);
+                    } else if (state.currentUser.role === 'CHEFE_POSTO' && report.status === 'Pendente') {
+                        actionsContainer.classList.remove('hidden');
+                        actionsContainer.classList.add('flex');
+                        const btn = document.createElement('button');
+                        btn.className = "bg-yellow-500 hover:bg-yellow-600 text-white text-xs px-3 py-1.5 rounded font-bold";
+                        btn.textContent = "Marcar Visto";
+                        btn.onclick = () => app.updateStatus(id, 'Visto');
+                        actionsContainer.appendChild(btn);
+                    }
+                }
+
+                document.getElementById('reports-list-view').classList.add('hidden');
+                document.getElementById('report-preview-view').classList.remove('hidden');
+            },
+
+            updateStatus: (id, status) => {
+                db.reports.updateStatus(id, status);
+                app.previewReport(id); 
+            },
+
+            closePreview: () => {
+                document.getElementById('reports-list-view').classList.remove('hidden');
+                document.getElementById('report-preview-view').classList.add('hidden');
+            },
+
+            // --- USER MANAGEMENT ---
+            showUserManagement: () => {
+                document.getElementById('reports-list-view').classList.add('hidden');
+                document.getElementById('user-management-view').classList.remove('hidden');
+                app.renderUserList();
+            },
+
+            cancelUserManagement: () => {
+                document.getElementById('reports-list-view').classList.remove('hidden');
+                document.getElementById('user-management-view').classList.add('hidden');
+            },
+
+            renderUserList: () => {
+                const tbody = document.getElementById('user-list-body');
+                tbody.innerHTML = '';
+                const users = db.users.getAll();
+                users.forEach(u => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'border-b hover:bg-gray-50';
+                    tr.innerHTML = `
+                        <td class="p-3 font-semibold">${u.name}</td>
+                        <td class="p-3 text-gray-600">${u.username}</td>
+                        <td class="p-3">
+                            <span class="text-xs px-2 py-1 rounded font-bold ${u.role === 'COMANDANTE' ? 'bg-red-100 text-red-800' : u.role === 'CHEFE_POSTO' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800'}">
+                                ${u.role.replace('_', ' ')}
+                            </span>
+                        </td>
+                        <td class="p-3 text-right">
+                            <button onclick="window.app.editUser('${u.id}')" class="text-blue-600 hover:text-blue-800 mr-3"><i data-lucide="user-cog" class="w-4 h-4"></i></button>
+                            <button onclick="window.app.deleteUser('${u.id}')" class="text-red-500 hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                if(window.lucide) window.lucide.createIcons();
+            },
+
+            saveUser: (e) => {
+                e.preventDefault();
+                const id = document.getElementById('user-id').value;
+                const name = document.getElementById('user-name').value;
+                const username = document.getElementById('user-username').value;
+                const password = document.getElementById('user-password').value;
+                const role = document.getElementById('user-role').value;
+
+                if(id) {
+                    db.users.update({ id, name, username, password, role });
+                } else {
+                    db.users.save({ id: Date.now().toString(), name, username, password, role });
+                }
+                app.resetUserForm();
+                app.renderUserList();
+            },
+
+            editUser: (id) => {
+                const users = db.users.getAll();
+                const u = users.find(user => user.id === id);
+                if(u) {
+                    document.getElementById('user-id').value = u.id;
+                    document.getElementById('user-name').value = u.name;
+                    document.getElementById('user-username').value = u.username;
+                    document.getElementById('user-password').value = u.password;
+                    document.getElementById('user-role').value = u.role;
+                    document.getElementById('user-form-title').textContent = "Editar Utilizador";
+                }
+            },
+
+            deleteUser: (id) => {
+                if(confirm('Tem certeza?')) {
+                    db.users.delete(id);
+                    app.renderUserList();
+                }
+            },
+
+            resetUserForm: () => {
+                document.getElementById('user-id').value = '';
+                document.getElementById('user-name').value = '';
+                document.getElementById('user-username').value = '';
+                document.getElementById('user-password').value = '';
+                document.getElementById('user-role').value = 'AGENTE';
+                document.getElementById('user-form-title').textContent = "Criar Novo Utilizador";
+            },
+
+            // --- GEOPOLITICS ---
+            fetchGeopolitics: async () => {
+                if (!API_KEY || API_KEY.includes('YOUR_')) {
+                    alert('Chave de API não configurada. Mostrando dados simulados.');
+                    document.getElementById('geo-content').innerHTML = `
+                        <p><strong>Modo Simulação (Sem API Key):</strong></p>
+                        <p>A situação na fronteira do Moxico mantém-se estável. Observa-se um fluxo migratório moderado nos marcos 14 e 15.
+                        O comércio transfronteiriço informal apresenta ligeiro aumento devido à época festiva.</p>
+                        <p>A 10ª Unidade mantém prontidão operativa elevada.</p>
+                    `;
+                    return;
+                }
+
+                document.getElementById('geo-loading').classList.remove('hidden');
+                
+                try {
+                    const ai = new GoogleGenAI({ apiKey: API_KEY });
+                    const response = await ai.models.generateContent({
+                        model: 'gemini-2.5-flash',
+                        contents: `Forneça uma análise geopolítica profissional e sóbria sobre os desafios de segurança fronteiriça na região do Moxico, Angola, especificamente focada na área de Lumbala Nguimbo (fronteira com a Zâmbia). 
+                        Foque em: Fluxos migratórios, comércio transfronteiriço e importância estratégica da 10ª Unidade da PGF.
+                        O tom deve ser oficial, militar e estratégico. Use formatação Markdown.`
+                    });
+                    
+                    document.getElementById('geo-content').innerHTML = marked.parse(response.text);
+                } catch (error) {
+                    console.error("Erro API:", error);
+                    document.getElementById('geo-content').innerHTML = "<p class='text-red-600'>Erro ao carregar análise de inteligência. Verifique a conexão.</p>";
+                } finally {
+                    document.getElementById('geo-loading').classList.add('hidden');
+                }
+            }
+        };
+
+        window.router = router;
+        window.app = app;
+        window.toggleMobileMenu = () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        };
+        
+        const imgInput = document.getElementById('report-images');
+        if(imgInput) imgInput.addEventListener('change', app.handleImageUpload);
+
+    </script>
+</body>
+</html>
